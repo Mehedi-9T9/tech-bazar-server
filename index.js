@@ -5,6 +5,8 @@ const port = process.env.PORT | 5000
 const mongoose = require('mongoose');
 require('dotenv').config()
 
+const productRoute = require("./routes/productRoute")
+
 //middleware
 app.use(cors())
 app.use(express.json())
@@ -21,6 +23,9 @@ app.get("/", async (req, res) => {
 mongoose.connect(process.env.URI)
     .then(() => console.log("Database Connect Successfull"))
     .catch((error) => console.log(error))
+
+//routing
+app.use("/product", productRoute)
 
 
 app.listen(port, () => {
