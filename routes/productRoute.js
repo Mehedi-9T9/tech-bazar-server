@@ -15,6 +15,17 @@ router.get("/", async (req, res) => {
     }
 })
 
+router.get("/search", async (req, res) => {
+    try {
+        const title = req.query.title
+        const result = await Product.find({ title: new RegExp(title, "i") })
+        res.send(result)
+    }
+    catch (error) {
+        console.log(error);
+    }
+})
+
 router.post("/", async (req, res) => {
     try {
         const newProduct = new Product(req.body)
