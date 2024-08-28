@@ -7,7 +7,8 @@ const Product = new mongoose.model("Product", productSchema)
 
 router.get("/", async (req, res) => {
     try {
-        const result = await Product.find()
+        const page = req.query.page
+        const result = await Product.find().skip(page * 6).limit(6)
         res.send(result)
     }
     catch (error) {
@@ -20,6 +21,16 @@ router.get("/search", async (req, res) => {
         const title = req.query.title
         const result = await Product.find({ title: new RegExp(title, "i") })
         res.send(result)
+    }
+    catch (error) {
+        console.log(error);
+    }
+})
+router.get("/totalProduct", async (req, res) => {
+    try {
+        const result = await Product.find().estimatedDocumentCount()
+
+        res.send({ result })
     }
     catch (error) {
         console.log(error);
