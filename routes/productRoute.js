@@ -37,6 +37,29 @@ router.get("/totalProduct", async (req, res) => {
     }
 })
 
+//sorting data
+router.get("/lowtohigh", async (req, res) => {
+    try {
+
+        const result = await Product.find().sort({ price: 1 }).skip(req.query.page * 6).limit(6)
+        res.send(result)
+    }
+    catch (error) {
+
+        console.log(error);
+    }
+})
+router.get("/hightolow", async (req, res) => {
+    try {
+        const result = await Product.find().sort({ price: -1 })
+        res.send(result)
+    }
+    catch (error) {
+
+        console.log(error);
+    }
+})
+
 router.post("/", async (req, res) => {
     try {
         const newProduct = new Product(req.body)
